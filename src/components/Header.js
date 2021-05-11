@@ -1,16 +1,23 @@
 import React from "react";
 import styled from "styled-components";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import SearchIcon from "@material-ui/icons/Search";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../firebase";
+import { Avatar } from "@material-ui/core";
 
 const Header = () => {
+  const [user] = useAuthState(auth);
+
+  // console.log(photoURL);
   return (
     <HeaderContainer>
       <HeaderLeft>
         <HeaderAvatar
-        // TODO add onclick
+          onClick={() => auth.signOut()}
+          src={user?.photoURL}
+          alt={user?.displayName}
         />
         <AccessTimeIcon />
       </HeaderLeft>
@@ -67,23 +74,20 @@ const HeaderLeft = styled.div`
     margin-left: auto;
     margin-right: 30px;
   }
-  > .MuiSvgIcon-root:last-child {
-    font-size: small;
-  }
 `;
-const HeaderAvatar = styled(AccountCircleIcon)`
+const HeaderAvatar = styled(Avatar)`
   cursor: pointer;
   :hover {
     opacity: 0.8;
   }
 `;
 const HeaderRight = styled.div`
-  flex:0.3;
-  display:flex;
-  align-items:flex-end;
+  flex: 0.3;
+  display: flex;
+  align-items: flex-end;
 
-  >.MuiSvgIcon-root {
-    margin-left:auto;
-    margin-right:20px;
+  > .MuiSvgIcon-root {
+    margin-left: auto;
+    margin-right: 20px;
   }
 `;
